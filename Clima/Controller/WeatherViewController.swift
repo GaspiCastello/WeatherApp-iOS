@@ -1,13 +1,6 @@
-//
-//  ViewController.swift
-//  Clima
-//
-//  Created by Angela Yu on 01/09/2019.
-//  Copyright © 2019 App Brewery. All rights reserved.
-//
-
 import UIKit
 import CoreLocation
+import MapKit
 
 class WeatherViewController: UIViewController {
     
@@ -18,7 +11,7 @@ class WeatherViewController: UIViewController {
     
     var weatherManager = WeatherManager()
     let locationManager = CLLocationManager()
-    
+    var coord: Coord?
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,7 +22,22 @@ class WeatherViewController: UIViewController {
         weatherManager.delegate = self
         searchTextField.delegate = self
     }
-
+    
+    @IBAction func openMapsButton(_ sender: UIButton) {
+        let regionDistance:CLLocationDistance = 10000
+        if let coord = coord {
+            let coordinates = CLLocationCoordinate2DMake(coord.lat, coord.lon)
+            let regionSpan = MKCoordinateRegion(center: coordinates, latitudinalMeters: regionDistance, longitudinalMeters: regionDistance)
+            let options = [
+                MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center),
+                MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span)
+            ]
+            let placemark = MKPlacemark(coordinate: coordinates, addressDictionary: nil)
+            let mapItem = MKMapItem(placemark: placemark)
+            mapItem.name = "Example"
+            mapItem.openInMaps(launchOptions: options)
+        }
+    }
 }
 
 //MARK: - UITextFieldDelegate
@@ -75,6 +83,7 @@ extension WeatherViewController: WeatherManagerDelegate {
             self.temperatureLabel.text = weather.temperatureString
             self.conditionImageView.image = UIImage(systemName: weather.conditionName)
             self.cityLabel.text = weather.cityName
+            self.coord = weather.coord
         }
     }
     

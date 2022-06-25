@@ -1,18 +1,14 @@
-//
-//  WeatherModel.swift
-//  Clima
-//
-//  Created by Angela Yu on 03/09/2019.
-//  Copyright © 2019 App Brewery. All rights reserved.
-//
-
 import Foundation
 
 struct WeatherModel {
     let conditionId: Int
     let cityName: String
     let temperature: Double
-    
+    let temp_min: Double
+    let temp_max: Double
+    let pressure: Double
+    let humidity: Double
+    let coord: Coord
     var temperatureString: String {
         return String(format: "%.1f", temperature)
     }
