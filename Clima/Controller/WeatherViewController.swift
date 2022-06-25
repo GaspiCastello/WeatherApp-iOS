@@ -8,17 +8,26 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var searchTextField: UITextField!
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var pressureLabel: UILabel!
+    @IBOutlet weak var humidityLabel: UILabel!
+    @IBOutlet weak var minTempLabel: UILabel!
+    @IBOutlet weak var maxTempLabel: UILabel!
     
     var weatherManager = WeatherManager()
     let locationManager = CLLocationManager()
     var coord: Coord?
+    let defaults = UserDefaults.standard
+    var history: [String] = ["Madrid"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        tableView.delegate = self
+        tableView.dataSource = self
+        defaults.array(forKey: K.HISTORY)
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.requestLocation()
-        
         weatherManager.delegate = self
         searchTextField.delegate = self
     }
@@ -63,27 +72,37 @@ extension WeatherViewController: UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        
         if let city = searchTextField.text {
             weatherManager.fetchWeather(cityName: city)
+            DispatchQueue.main.async { [self] in
+                if history.count == 5 {
+                    history.removeFirst(1)
+                }
+                if !history.contains(city) {
+                    history.append(city)
+                    defaults.set(history, forKey: K.HISTORY)
+                    print(history)
+                    tableView.reloadData()
+                }
+            }
         }
-        
         searchTextField.text = ""
-        
     }
 }
 
 //MARK: - WeatherManagerDelegate
-
-
 extension WeatherViewController: WeatherManagerDelegate {
     
     func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel) {
-        DispatchQueue.main.async {
-            self.temperatureLabel.text = weather.temperatureString
-            self.conditionImageView.image = UIImage(systemName: weather.conditionName)
-            self.cityLabel.text = weather.cityName
-            self.coord = weather.coord
+        DispatchQueue.main.async { [self] in
+            temperatureLabel.text = weather.temperatureString
+            conditionImageView.image = UIImage(systemName: weather.conditionName)
+            cityLabel.text = weather.cityName
+            coord = weather.coord
+            maxTempLabel.text = "\(weather.temp_max)"
+            minTempLabel.text = "\(weather.temp_min)"
+            pressureLabel.text = "\(weather.pressure) Hpa"
+            humidityLabel.text = "\(weather.humidity) %"
         }
     }
     
@@ -113,4 +132,33 @@ extension WeatherViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error)
     }
+}
+//MARK: - UITableViewDelegate
+extension WeatherViewController: UITableViewDelegate, UITableViewDataSource{
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return history.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: K.CITY_NAME_CELL, for: indexPath) as! CityNameTableViewCell
+        cell.cityNameLabel.text = history[indexPath.row]
+        cell.selectionStyle = UITableViewCell.SelectionStyle(rawValue: 0)!
+        return cell
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        weatherManager.fetchWeather(cityName: history[indexPath.row])
+    }
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            tableView.beginUpdates()
+            history.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            tableView.endUpdates()
+        }
+    }
+
 }
