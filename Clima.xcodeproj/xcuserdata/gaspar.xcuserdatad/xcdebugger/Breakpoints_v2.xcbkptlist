@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "5748C8D8-62E1-46B7-9D1D-F5B123C0E497"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9EAE029D-E177-479C-A68A-413D7BB2315F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Clima/Controller/WeatherViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "37"
+            endingLineNumber = "37"
+            landmarkName = "openMapsButton(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "9EAE029D-E177-479C-A68A-413D7BB2315F - 4a90341d0b04e2e0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Clima.WeatherViewController.openMapsButton(__C.UIButton) -&gt; ()"
+                  moduleName = "Clima"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/gaspar/Desktop/Clima-iOS13-Completed/Clima/Controller/WeatherViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "37"
+                  endingLineNumber = "37"
+                  offsetFromSymbolStart = "169">
+               </Location>
+               <Location
+                  uuid = "9EAE029D-E177-479C-A68A-413D7BB2315F - 4a90341d0b04e2e0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Clima.WeatherViewController.openMapsButton(__C.UIButton) -&gt; ()"
+                  moduleName = "Clima"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/gaspar/Desktop/Clima-iOS13-Completed/Clima/Controller/WeatherViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "37"
+                  endingLineNumber = "37"
+                  offsetFromSymbolStart = "250">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B0DA24BE-2781-446D-B0DE-782DB9828FF7"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Clima/Controller/WeatherViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
+            landmarkName = "openMapsButton(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
